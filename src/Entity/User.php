@@ -14,31 +14,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'string', unique: true)]
-    private ?string $id = null;
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(length: 100)]
     private ?string $nom = null;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private ?string $role = 'ROLE_USER'; 
+    #[ORM\Column(length: 50)]
+    private string $role = 'ROLE_USER'; 
 
     public function __construct()
     {
-        $this->id = uniqid('user_', true);
+        $this->roles = ['ROLE_USER'];
     }
 
     // Getters et Setters
-    public function getId(): ?string
+    public function getId(): ?int  // FIXED: Changed from ?string to ?int
     {
         return $this->id;
     }
@@ -59,10 +59,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
+    public function getUsername(): string
+    {
+        return $this->getUserIdentifier();
+    }
+
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles[] = $this->role;
+        
+        // Ensure ROLE_USER is always present
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+        
         return array_unique($roles);
     }
 
@@ -74,13 +84,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getPassword(): string
     {
-        return $this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): static
     {
         $this->password = $password;
         return $this;
+    }
+
+    public function getSalt(): ?string
+    {
+        // Not needed when using modern hashing algorithms
+        return null;
     }
 
     public function eraseCredentials(): void
@@ -99,7 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getRole(): string
     {
         return $this->role;
     }
