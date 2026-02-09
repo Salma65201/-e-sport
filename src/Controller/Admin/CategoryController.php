@@ -78,7 +78,6 @@ class CategoryController extends AbstractController
             $entityManager->persist($category);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Category created successfully');
             return $this->redirectToRoute('admin_category_index');
         }
 
@@ -114,7 +113,6 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $this->addFlash('success', 'Category updated successfully');
             return $this->redirectToRoute('admin_category_index');
         }
 
@@ -136,7 +134,6 @@ class CategoryController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
             $entityManager->remove($category);
             $entityManager->flush();
-            $this->addFlash('success', 'Category deleted successfully');
         }
 
         return $this->redirectToRoute('admin_category_index');

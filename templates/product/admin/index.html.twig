@@ -182,7 +182,6 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>category</th>
                         <th>price</th>
@@ -192,7 +191,6 @@
                 <tbody>
                     {% for product in products %}
                         <tr>
-                            <td>#{{ product.id }}</td>
                             <td>{{ product.name }}</td>
                             <td>{{ product.category ? product.category.name : '' }}</td>
                             <td>{{ product.price ? product.price|number_format(2, '.', ',') ~ ' €' : '' }}</td>

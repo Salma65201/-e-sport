@@ -41,7 +41,6 @@ final class MatchGameController extends AbstractController
 
             // تأكد match مربوط بتورنو
             if (!$matchGame->getTournoi()) {
-                $this->addFlash('error', 'Match doit appartenir à un tournoi');
                 return $this->redirectToRoute('app_match_game_new');
             }
 
@@ -74,7 +73,6 @@ final class MatchGameController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             if (!$matchGame->getTournoi()) {
-                $this->addFlash('error', 'Match doit appartenir à un tournoi');
                 return $this->redirectToRoute('app_match_game_edit', [
                     'id' => $matchGame->getId()
                 ]);

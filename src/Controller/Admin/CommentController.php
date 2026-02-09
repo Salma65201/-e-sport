@@ -49,7 +49,6 @@ class CommentController extends AbstractController
             $em->persist($comment);
             $em->flush();
 
-            $this->addFlash('success', 'Comment created.');
             return $this->redirectToRoute('admin_comment_index');
         }
 
@@ -75,7 +74,6 @@ class CommentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            $this->addFlash('success', 'Comment updated.');
             return $this->redirectToRoute('admin_comment_index');
         }
 
@@ -91,9 +89,8 @@ class CommentController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
             $em->remove($comment);
             $em->flush();
-            $this->addFlash('success', 'Comment deleted.');
         } else {
-            $this->addFlash('danger', 'Invalid CSRF token.');
+            // invalid CSRF token
         }
 
         return $this->redirectToRoute('admin_comment_index');

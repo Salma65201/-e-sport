@@ -6,6 +6,8 @@ use App\Entity\Equipe;
 use App\Entity\User;
 
 use App\Form\Equipe1Type;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -46,6 +48,22 @@ final class EquipeController extends AbstractController
 
             // owner devient membre automatiquement
             $equipe->addMember($user);
+            // handle logo upload
+            /** @var UploadedFile $logoFile */
+            $logoFile = $form->get('logo')->getData();
+            if ($logoFile) {
+                $uploadsDir = $this->getParameter('kernel.project_dir') . '/public/uploads/teams';
+                if (!is_dir($uploadsDir)) {
+                    @mkdir($uploadsDir, 0755, true);
+                }
+                $newFilename = uniqid('team_') . '.' . $logoFile->guessExtension();
+                try {
+                    $logoFile->move($uploadsDir, $newFilename);
+                    $equipe->setLogo($newFilename);
+                } catch (FileException $e) {
+                    // ignore upload failures for now
+                }
+            }
 
             $entityManager->persist($equipe);
             $entityManager->flush();
@@ -79,6 +97,21 @@ final class EquipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $logoFile */
+            $logoFile = $form->get('logo')->getData();
+            if ($logoFile) {
+                $uploadsDir = $this->getParameter('kernel.project_dir') . '/public/uploads/teams';
+                if (!is_dir($uploadsDir)) {
+                    @mkdir($uploadsDir, 0755, true);
+                }
+                $newFilename = uniqid('team_') . '.' . $logoFile->guessExtension();
+                try {
+                    $logoFile->move($uploadsDir, $newFilename);
+                    $equipe->setLogo($newFilename);
+                } catch (FileException $e) {
+                    // ignore
+                }
+            }
             $entityManager->flush();
             return $this->redirectToRoute('app_equipe_index');
         }

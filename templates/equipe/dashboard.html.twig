@@ -6,11 +6,18 @@
 
     <!-- HEADER -->
     <section class="team-header">
-        <div>
-            <h1>{{ team.nom }}</h1>
-            <span class="role {{ membership.role }}">
-                {{ membership.role }}
-            </span>
+        <div style="display:flex;align-items:center;gap:16px;">
+            {% if team.logo %}
+                <img src="{{ asset('uploads/teams/' ~ team.logo) }}" alt="{{ team.nom }}" style="width:72px;height:72px;border-radius:8px;object-fit:cover;">
+            {% else %}
+                <div class="avatar" style="width:72px;height:72px;border-radius:8px;background:#0f172a;"></div>
+            {% endif %}
+            <div>
+                <h1>{{ team.nom }}</h1>
+                <span class="role {{ membership.role }}">
+                    {{ membership.role }}
+                </span>
+            </div>
         </div>
 
         <div class="team-actions">

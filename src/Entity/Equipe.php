@@ -29,6 +29,8 @@ class Equipe
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo = null;
 
     public function __construct()
     {
@@ -104,6 +106,16 @@ public function setNom(string $nom): self
     public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
+        return $this;
+    }
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
         return $this;
     }
     public function getMaxMembers(): int
