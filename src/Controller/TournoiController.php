@@ -81,31 +81,26 @@ final class TournoiController extends AbstractController
 
             // Validate CSRF token
             if (!$this->isCsrfTokenValid('register_tournament', $token)) {
-                $this->addFlash('error', 'Token de sécurité invalide.');
                 return $this->redirectToRoute('app_tournoi_show', ['id' => $id]);
             }
 
             if (!$equipeId) {
-                $this->addFlash('error', 'Veuillez sélectionner une équipe.');
                 return $this->redirectToRoute('app_tournoi_show', ['id' => $id]);
             }
 
             $equipe = $equipeRepository->find($equipeId);
 
             if (!$equipe || $equipe->getOwner() !== $user) {
-                $this->addFlash('error', 'Équipe non valide.');
                 return $this->redirectToRoute('app_tournoi_show', ['id' => $id]);
             }
 
             if ($tournoi->getEquipes()->contains($equipe)) {
-                $this->addFlash('warning', 'Votre équipe est déjà inscrite à ce tournoi.');
                 return $this->redirectToRoute('app_tournoi_show', ['id' => $id]);
             }
 
             $tournoi->addEquipe($equipe);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Inscription au tournoi effectuée avec succès!');
             return $this->redirectToRoute('app_tournoi_show', ['id' => $id]);
         }
 

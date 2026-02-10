@@ -12,7 +12,11 @@
 
     <!-- Avatar -->
     <div class="team-avatar">
-        <i class="fas fa-gamepad"></i>
+        {% if equipe.logo %}
+            <img src="{{ asset('uploads/teams/' ~ equipe.logo) }}" alt="{{ equipe.nom }}" style="width:90px;height:90px;border-radius:50%;object-fit:cover;">
+        {% else %}
+            <i class="fas fa-gamepad"></i>
+        {% endif %}
     </div>
 
     <!-- Name -->

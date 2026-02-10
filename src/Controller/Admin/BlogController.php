@@ -51,7 +51,6 @@ class BlogController extends AbstractController
             $entityManager->persist($blog);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Blog created successfully');
             return $this->redirectToRoute('admin_blog_index');
         }
 
@@ -87,7 +86,6 @@ class BlogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $this->addFlash('success', 'Blog updated successfully');
             return $this->redirectToRoute('admin_blog_index');
         }
 
@@ -109,7 +107,6 @@ class BlogController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $blog->getId(), $request->request->get('_token'))) {
             $entityManager->remove($blog);
             $entityManager->flush();
-            $this->addFlash('success', 'Blog deleted successfully');
         }
 
         return $this->redirectToRoute('admin_blog_index');

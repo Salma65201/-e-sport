@@ -54,7 +54,6 @@ class MatchGameController extends AbstractController
             $entityManager->persist($matchGame);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Match game was created successfully.');
             return $this->redirectToRoute('admin_match_game_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -92,7 +91,6 @@ class MatchGameController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $this->addFlash('success', 'Match game was updated successfully.');
             return $this->redirectToRoute('admin_match_game_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -117,9 +115,9 @@ class MatchGameController extends AbstractController
             $entityManager->remove($matchGame);
             $entityManager->flush();
 
-            $this->addFlash('success', sprintf('Match #%d was deleted successfully.', $matchId));
+            // deletion successful
         } else {
-            $this->addFlash('danger', 'Invalid security token.');
+            // invalid security token
         }
 
         return $this->redirectToRoute('admin_match_game_index', [], Response::HTTP_SEE_OTHER);

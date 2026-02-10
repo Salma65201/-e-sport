@@ -483,5 +483,18 @@
     margin-top: 20px;
 }
 
+/* Ensure select options (tournaments) show readable text */
+.form-select,
+.form-select option {
+    color: #000 !important;
+    background: #fff !important;
+}
+
+/* For dark backgrounds, make select box itself contrast while options remain readable */
+.form-select {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.08) !important;
+}
+
 
 

@@ -64,7 +64,6 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', sprintf('User "%s" was created successfully.', $user->getEmail()));
             return $this->redirectToRoute('admin_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -106,9 +105,8 @@ class UserController extends AbstractController
                 $user->setPassword($passwordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
     }
 
-    $entityManager->flush();
+            $entityManager->flush();
 
-            $this->addFlash('success', sprintf('User "%s" was updated successfully.', $user->getEmail()));
             return $this->redirectToRoute('admin_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -133,7 +131,6 @@ class UserController extends AbstractController
         
         // Prevent self-deletion
         // if ($user->getId() === $currentUser->getId()) {
-        //     $this->addFlash('danger', 'You cannot delete your own account.');
         //     return $this->redirectToRoute('admin_user_index');
         // }
 
@@ -141,10 +138,8 @@ class UserController extends AbstractController
             $userEmail = $user->getEmail();
             $entityManager->remove($user);
             $entityManager->flush();
-
-            $this->addFlash('success', sprintf('User "%s" was deleted successfully.', $userEmail));
         } else {
-            $this->addFlash('danger', 'Invalid security token.');
+            // invalid security token
         }
 
         return $this->redirectToRoute('admin_user_index', [], Response::HTTP_SEE_OTHER);

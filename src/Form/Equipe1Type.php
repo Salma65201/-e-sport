@@ -9,6 +9,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,6 +33,23 @@ class Equipe1Type extends AbstractType
                 'label' => 'Tournois',
                 'multiple' => true,
                 'attr' => ['class' => 'form-select']
+            ])
+            ->add('logo', FileType::class, [
+                'label' => 'Logo (PNG/JPEG)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PNG or JPEG image',
+                    ])
+                ],
+                'attr' => ['class' => 'form-control']
             ])
         ;
     }

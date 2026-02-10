@@ -173,7 +173,6 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Roles</th>
@@ -183,7 +182,6 @@
                 <tbody>
                     {% for user in users %}
                         <tr>
-                            <td>#{{ user.id }}</td>
                             <td>{{ user.nom }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>

@@ -14,8 +14,7 @@
         font-size: 0.95rem;
     }
 
-    .admin-form .form-control::placeholder,
-    .admin-form .form-select {
+    .admin-form .form-control::placeholder {
         color: #94a3b8;
     }
 
@@ -23,27 +22,14 @@
     .admin-form .form-select:focus {
         background: rgba(30, 41, 59, 0.7);
         border-color: #6366f1;
-        color: #e2e8f0;
         box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
     }
 
     .admin-form label {
         color: #e2e8f0;
         font-weight: 500;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
         display: block;
-    }
-
-    .admin-form .form-text {
-        color: #94a3b8;
-        font-size: 0.875rem;
-    }
-
-    .admin-form .invalid-feedback {
-        color: #ef4444;
-        font-size: 0.875rem;
-        display: block;
-        margin-top: 0.25rem;
     }
 
     .form-grid {
@@ -59,16 +45,13 @@
         margin-top: 2.5rem;
         padding-top: 2rem;
         border-top: 1px solid rgba(148, 163, 184, 0.1);
-        flex-wrap: wrap;
     }
 
     .btn {
         border-radius: 8px;
         font-weight: 500;
-        padding: 0.625rem 1.25rem;
-        transition: all 0.2s ease;
+        padding: 0.6rem 1.3rem;
         border: none;
-        text-decoration: none;
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -77,63 +60,63 @@
 
     .btn-primary {
         background: linear-gradient(135deg, #6366f1, #8b5cf6);
-        color: white;
+        color: #fff;
     }
 
     .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        color: white;
+        box-shadow: 0 6px 15px rgba(99, 102, 241, 0.35);
     }
 
     .btn-secondary {
         background: rgba(148, 163, 184, 0.1);
         color: #e2e8f0;
     }
-
-    .btn-secondary:hover {
-        background: rgba(148, 163, 184, 0.15);
-        color: #e2e8f0;
-    }
-
-    @media (max-width: 768px) {
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .form-btn-group {
-            flex-direction: column;
-        }
-
-        .btn {
-            width: 100%;
-            justify-content: center;
-        }
-    }
 </style>
 
 {{ form_start(form, {'attr': {'class': 'admin-form', 'novalidate': 'novalidate'}}) }}
-    <div class="form-grid">
-        <div class="form-group">
-            {{ form_row(form.title, {'attr': {'class': 'form-control'}, 'label': 'Title'}) }}
-        </div>
 
-        <div class="form-group">
-            {{ form_row(form.content, {'attr': {'class': 'form-control'}, 'label': 'Content'}) }}
-        </div>
+<div class="form-grid">
 
-        <div class="form-group">
-            {{ form_row(form.createdAt, {'attr': {'class': 'form-control'}, 'label': 'Published At'}) }}
-        </div>
+    <div class="form-group">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.title) }}
     </div>
 
-    <div class="form-btn-group">
-        <button type="submit" class="btn btn-primary">
-            <i class="fas fa-save"></i> {{ button_label|default('Save Blog') }}
-        </button>
-        <a href="{{ path('admin_blog_index') }}" class="btn btn-secondary">
-            <i class="fas fa-times"></i> Cancel
-        </a>
+    <div class="form-group">
+        {{ form_label(form.content) }}
+        {{ form_widget(form.content, {
+            'attr': {
+                'class': 'form-control',
+                'rows': 5
+            }
+        }) }}
+        {{ form_errors(form.content) }}
     </div>
+
+    <div class="form-group">
+        {{ form_label(form.createdAt, 'Published At') }}
+        {{ form_widget(form.createdAt, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.createdAt) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.category) }}
+        {{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+        {{ form_errors(form.category) }}
+    </div>
+
+</div>
+
+<div class="form-btn-group">
+    <button class="btn btn-primary">
+        <i class="fas fa-save"></i> {{ button_label|default('Save Blog') }}
+    </button>
+
+    <a href="{{ path('admin_blog_index') }}" class="btn btn-secondary">
+        <i class="fas fa-times"></i> Cancel
+    </a>
+</div>
 
 {{ form_end(form) }}
