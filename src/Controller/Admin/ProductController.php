@@ -48,13 +48,12 @@ class ProductController extends AbstractController
             $products = $productRepository->findAllOrdered();
         }
 
-        $csvData = "ID,Name,Price,CreatedAt\n";
+        $csvData = "ID,Name,Price\n";
         foreach ($products as $p) {
-            $csvData .= sprintf("%d,%s,%s,%s\n",
+            $csvData .= sprintf("%d,%s,%s\n",
                 $p->getId(),
                 str_replace(',', ' ', $p->getName() ?? ''),
-                $p->getPrice() ?? '',
-                $p->getCreatedAt() ? $p->getCreatedAt()->format('Y-m-d H:i:s') : ''
+                $p->getPrice() ?? ''
             );
         }
 

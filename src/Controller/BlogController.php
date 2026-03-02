@@ -147,7 +147,7 @@ final class BlogController extends AbstractController
         }
 
 $user = $this->getUser();
-if (!$user instanceof \App\Entity\User) {
+if (!$user instanceof User) {
     $this->addFlash('error', 'You must be logged in to comment.');
     return $this->redirectToRoute('app_blog_user_index');
 }
@@ -215,7 +215,7 @@ if (!$user instanceof \App\Entity\User) {
     {
         
         $user = $this->getUser();
-if (!$user instanceof \App\Entity\User) {
+if (!$user instanceof User) {
     $this->addFlash('error', 'You must be logged in to rate.');
     return $this->redirectToRoute('app_blog_user_index');
 }

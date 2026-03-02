@@ -43,9 +43,9 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (null === $comment->getCreatedAt()) {
-                $comment->setCreatedAt(new \DateTimeImmutable());
-            }
+            // ensure createdAt is always set since the property is non-nullable
+            $comment->setCreatedAt(new \DateTimeImmutable());
+
             $em->persist($comment);
             $em->flush();
 

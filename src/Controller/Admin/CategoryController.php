@@ -45,13 +45,12 @@ class CategoryController extends AbstractController
             $categories = $categoryRepository->findAllOrdered();
         }
 
-        $csvData = "ID,Name,Description,CreatedAt\n";
+        $csvData = "ID,Name,Description\n";
         foreach ($categories as $c) {
-            $csvData .= sprintf("%d,%s,%s,%s\n",
+            $csvData .= sprintf("%d,%s,%s\n",
                 $c->getId(),
                 str_replace(',', ' ', $c->getName() ?? ''),
-                str_replace(',', ' ', $c->getDescription() ?? ''),
-                $c->getCreatedAt() ? $c->getCreatedAt()->format('Y-m-d H:i:s') : ''
+                str_replace(',', ' ', $c->getDescription() ?? '')
             );
         }
 
